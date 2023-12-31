@@ -477,7 +477,10 @@ class NameGenerator:
     def __call__(self, level):
         n = self.names[level]
         self.used += [n]
-        return self.names[level]
+        if self.used.count(n) > 1:
+            v = self.used.count(n)
+            n += '_%i' % v
+        return n
 
 name_generator = NameGenerator()
 

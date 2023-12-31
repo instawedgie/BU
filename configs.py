@@ -114,8 +114,9 @@ pygame.font.init()
 main_font_size = 30
 main_font = pygame.font.SysFont('Comic Sans MS', main_font_size)
 graph_font_size = 12
-# graph_font = pygame.font.SysFont('Times New Roman', graph_font_size)
 graph_font = pygame.font.SysFont('Courier', graph_font_size)
+name_font_size = 10
+name_font = pygame.font.SysFont('Times New Roman', name_font_size)
 text_color = (255, 0, 0)
 
 # ------ colors -------------

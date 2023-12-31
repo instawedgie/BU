@@ -35,17 +35,22 @@ class Actor(BaseObject):
         self.num_trackers = configs.actor_power_trackers
 
         # ---- manage stats
-        if not level:
+        if level is None:
             self.level = random.randint(1, 20)
         else:
             self.level = level
 
-        # try and update the name based on level
-        if configs.translate_strings:
-            try:
-                self.name = tools.name_generator(self.level)
-            except Exception as E:
-                pass
+        # Set up name based on level, and generate name text object
+        try:
+            self.name = tools.name_generator(self.level)
+        except Exception as E:
+            pass
+        # set up the text to display below the actor
+        self.name_text = configs.name_font.render(
+            self.name,  # display the name
+            True,  # Anti-Alias (???) idk
+            self.color,  # use same color as actor
+        )
 
         # upgrade random stats based on level
         self.strength = 0
@@ -147,10 +152,18 @@ class Actor(BaseObject):
     def draw(self, screen):
         super().draw(screen)
 
+        # Draw suspension bar
         if self.suspension:
             # suspension wait bar
             pygame.draw.rect(screen, configs.menu_color, self.suspend_rect_background)
             pygame.draw.rect(screen, self.sus_rect_color, self.suspend_rect)
+
+        # draw name under player
+        if configs.translate_strings:
+            r = self.name_text.get_rect(
+                center=(self.position.x, self.position.y + configs.actor_size + 3)
+            )
+            screen.blit(self.name_text, r)
 
         # drawing player during different states
         if self.lock:
