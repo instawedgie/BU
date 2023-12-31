@@ -10,6 +10,7 @@ import py_trees
 
 # custom scripts
 import configs
+import actor_configs
 import UI.armor
 import UI.afm
 from tools import *
@@ -42,7 +43,7 @@ class Actor(BaseObject):
 
         # Set up name based on level, and generate name text object
         try:
-            self.name = tools.name_generator(self.level)
+            self.name = actor_configs.name_generator(self.level)
         except Exception as E:
             pass
         # set up the text to display below the actor
@@ -53,23 +54,40 @@ class Actor(BaseObject):
         )
 
         # upgrade random stats based on level
-        self.strength = 0
-        self.finesse = 0
-        self.toughness = 0
-        self.endurance = 0
-        stats = [self.strength, self.finesse, self.toughness, self.endurance]  # set up intial list
-        for i in range(self.level):  # loop for each level
-            out = random.choice([n for n, _ in enumerate(stats) if _ < 5])
-            stats[out] += 1
+        if self.name in actor_configs.actor_stats.keys():
+            (s, f, t, e, a) = actor_configs.actor_stats[self.name]
+            self.strength = s
+            self.finesse = f
+            self.toughness = t
+            self.endurance = e
+            self.abilities = a
+            stats = [self.strength, self.finesse, self.toughness, self.endurance, self.abilities]
+        else:
+            self.strength = 0
+            self.finesse = 0
+            self.toughness = 0
+            self.endurance = 0
+            self.abilities = 0
+            stats = [self.strength, self.finesse, self.toughness, self.endurance]  # set up intial list
+            for i in range(self.level):  # loop for each level
+                out = random.choice([n for n, _ in enumerate(stats) if _ < 5])
+                stats[out] += 1
+            stats += [self.abilities]
         # self.stats = stats  # hold a list of stats
         self.__dict__.update({
             'strength': stats[0],
             'finesse': stats[1],
             'endurance': stats[2],
             'toughness': stats[3],
+            'abilities': stats[4]
         })
 
-        self.armor = UI.armor.get_armor(random.choice(list(UI.armor.armors.keys())))
+        # randomly assign armor actor
+        if self.name in actor_configs.armor_percentages.keys():
+            armor_weights = actor_configs.armor_percentages[self.name]
+        else:
+            armor_weights = None
+        self.armor = UI.armor.get_armor(random.choices(list(UI.armor.armors.keys()), weights=armor_weights)[0])
 
         # set up the actor schedule
         self.schedule = random.choices(locations, k=configs.period_total)  # random locations for a schedule
@@ -104,7 +122,8 @@ class Actor(BaseObject):
         self.tank_size = configs.actor_tank_min + (random.random() * configs.actor_tank_range)
         self.drain_rate = math.log(2) / (configs.actor_drain_min + (random.random() * configs.actor_drain_range))
         self.fuel = random.random()
-        self.tank = random.random() * self.tank_size  # ensure tank does not start over flowing
+        self.tank = random.random() * self.tank_size  # set tank to a random value inside of the tank size
+        # self.tank = .95 * self.tank_size  # All actors immediately have to pee
 
         # variables for interacting with the map
         self.event_object = None  # used to store a ref to action items (if needed)
@@ -159,7 +178,7 @@ class Actor(BaseObject):
             pygame.draw.rect(screen, self.sus_rect_color, self.suspend_rect)
 
         # draw name under player
-        if configs.translate_strings:
+        if configs.translate_strings and configs.show_actor_names:
             r = self.name_text.get_rect(
                 center=(self.position.x, self.position.y + configs.actor_size + 3)
             )
