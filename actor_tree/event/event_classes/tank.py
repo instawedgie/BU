@@ -11,6 +11,7 @@ from py_trees.common import Status
 # custom imports
 import configs
 from tools import vector
+import tools
 from actor_tree.event.event_classes.base_event import BaseEvent
 from Mapping.map import event_regions
 
@@ -18,7 +19,7 @@ from Mapping.map import event_regions
 locations = [_ for _ in event_regions if _.key == 'tank']
 
 debug = False
-debug_tank = True
+debug_tank = False
 
 
 class Tank(BaseEvent):
@@ -55,7 +56,8 @@ class Tank(BaseEvent):
         if not self.location.is_registered(self.actor):
             # check if we need to register the actor
             if self.actor.waypoint == self.location.room.entrance:
-                print("Registering from tank leaf")
+                if debug:
+                    tools.log("Registering from tank leaf")
                 self.location.update(self.actor)
                 return Status.RUNNING
             # ensure actor is moving towards the room

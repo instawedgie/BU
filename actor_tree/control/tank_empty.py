@@ -9,6 +9,7 @@ from py_trees.common import Status
 # custom module imports
 from actor_tree.base_leaf import BaseLeaf
 import configs
+import tools
 
 debug = True
 
@@ -24,9 +25,9 @@ class TankEmpty(BaseLeaf):
 
         if self.actor.tank/self.actor.tank_size > 1:
             self.empty = True
-            self.actor.get_afm('MSY')  # add msy afm
+            self.actor.get_afm('MSY').value = 1  # add msy afm, set afm.value to 1
             if debug:
-                print("%s is emptying tank" % self.actor.name)
+                tools.log("%s is emptying tank" % self.actor.name)
 
         if self.empty:
             if self.actor.tank > 0:

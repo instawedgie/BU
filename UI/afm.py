@@ -5,8 +5,10 @@ import copy
 from dataclasses import dataclass
 import numpy as np
 
+import configs
+import tools
 
-debug = True
+debug = False
 
 
 @dataclass
@@ -176,7 +178,7 @@ def get_afm(name):
     :param name: name of afm in the Dict "afms"
     :return: clone of afm obj
     """
-    if debug: print("Making a new afm")
+    if debug: tools.log("Making a new afm")
     if type(name) == Afm:  # given an afm object
         return copy.deepcopy(name)
     else:  # given an afm name

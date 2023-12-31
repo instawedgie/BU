@@ -10,6 +10,7 @@ import time
 
 import configs
 from tools import vector
+import tools
 from Mapping.map import locations, idle_locations
 import Mapping
 
@@ -22,7 +23,7 @@ from actor_tree.event.event_classes.water import Water
 from actor_tree.event.event_classes.tank import Tank
 
 # debug variables
-debug_completion = True
+debug_completion = False
 debug_assignment = True  # print message when assigning events to actors
 debug_locomotion = False
 
@@ -69,7 +70,7 @@ class Locomotion(BaseLeaf):
                 if debug_locomotion:
                     # manage not spamming the console while we idle at our destination
                     if self.debug_timer <= 0:
-                        print("%s has reached destination %s" % (self.actor.name, self.actor.destination.name))
+                        tools.log("%s has reached destination %s" % (self.actor.name, self.actor.destination.name))
                     self.debug_timer += self.actor.dt / 1000
                     if self.debug_timer >= self.debug_cooldown:
                         self.debug_timer = 0
@@ -141,7 +142,8 @@ class AssignNeed(BaseLeaf):
             if eve and self.actor.event:  # check if we found an important event and that the actor has an event
                 if eve.name != self.actor.event.name:  # don't assign the same event we are already completing
                     if self.actor.event.check_importance(self.actor) < val:
-                        print("%s needs %s" % (self.actor.name, eve.name))
+                        if debug_assignment:
+                            tools.log("%s needs %s" % (self.actor.name, eve.name))
                         self.actor.assign_event(eve)
 
         return Status.SUCCESS  # always return success (don't block the tree here)
@@ -160,7 +162,7 @@ class AssignEvent(BaseLeaf):
     def update(self):
         k, e = random.choice(list(self.events.items()))  # pick a random key from the events dict
         if debug_assignment:
-            print("%s assigned %s" % (self.actor.name, k))
+            tools.log("%s assigned %s" % (self.actor.name, k))
         self.actor.assign_event(e)  # let the actor create a new event to use
         return Status.SUCCESS
 
@@ -173,8 +175,8 @@ class CompleteEvent(BaseLeaf):
                 return self.actor.event.update()
             except Exception as e:
                 if debug_completion:
-                    print("WARNING: TRIED TO UPDATE EVENT, FAILED")
-                    print(e)
+                    tools.log("WARNING: TRIED TO UPDATE EVENT, FAILED")
+                    tools.log(e)
                 return Status.FAILURE  # could not update, probably due to actor.event == None
         else:
             return Status.SUCCESS  # succeed if there is no event to complete (should get assigned later in the tick)
@@ -217,7 +219,7 @@ class old_AssignEvent(BaseLeaf):
         return Status.SUCCESS
 
     def assign_idle(self):
-        if debug_assignment: print("Assigning idle to " + self.actor.name)
+        if debug_assignment: tools.log("Assigning idle to " + self.actor.name)
         self.actor.event = 'idle'
         t = configs.actor_min_idle_time + (
                     random.random() * (configs.actor_max_idle_time - configs.actor_min_idle_time))
@@ -225,7 +227,7 @@ class old_AssignEvent(BaseLeaf):
         self.actor.assign_destination(random.choice(idle_locations).waypoint)
 
     def assign_wander(self):
-        if debug_assignment: print("Assigning wander to " + self.actor.name)
+        if debug_assignment: tools.log("Assigning wander to " + self.actor.name)
         self.actor.event = 'wander'
         n = random.randint(configs.actor_min_wander_time, configs.actor_max_wander_time)  # number of waypoints to visit
         self.actor.event_dict.update({'locations': n})  # add location visits to the event blackboard

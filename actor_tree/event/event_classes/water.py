@@ -7,6 +7,7 @@ from py_trees.common import Status
 # custom imports
 import configs
 from tools import vector
+import tools
 from actor_tree.event.event_classes.base_event import BaseEvent
 from Mapping.map import event_regions
 
@@ -14,7 +15,7 @@ from Mapping.map import event_regions
 locations = [_ for _ in event_regions if _.key == 'water']
 
 debug = False
-debug_unregister = True
+debug_unregister = False
 
 class Water(BaseEvent):
     name = 'water'
@@ -92,7 +93,7 @@ class Water(BaseEvent):
             if (d_obj > self.location.register_radius and
                 d_pos > self.location.register_radius):
                 if debug_unregister:
-                    print("Control Update deregistered " + self.actor.name)
+                    tools.log("Control Update deregistered " + self.actor.name)
                 self.location.deregister(self.actor)
                 self.registered = False
         else:

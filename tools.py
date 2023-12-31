@@ -443,45 +443,49 @@ def translator(s):
     else:
         return s
 
-class NameGenerator:
+def log(s):
+    if not configs.debug_print_off:
+        print(s)
 
-    def __init__(self):
-        # names already used
-        self.used = []
-
-        # default names
-        self.names = [
-            'Inesea',  # 0
-            'Whitney',
-            'Caitlyn',
-            'Caroline',
-            'Monica',
-            'Emma',  # 5
-            'Mary',
-            'Beth',
-            'Valerie',
-            'Amanda',
-            'Sabrina',  # 10
-            'Charli',
-            'London',
-            'Maddie',
-            'Katrina',
-            'Juliana', # 15
-            'Livvy',
-            'Kody',
-            'Sam',
-            'Maggie',
-            'Jax',  # 20
-        ]
-
-    def __call__(self, level):
-        n = self.names[level]
-        self.used += [n]
-        if self.used.count(n) > 1:
-            v = self.used.count(n)
-            n += '_%i' % v
-        return n
-
-name_generator = NameGenerator()
+# class NameGenerator:
+#
+#     def __init__(self):
+#         # names already used
+#         self.used = []
+#
+#         # default names
+#         self.names = [
+#             'Inesea',  # 0
+#             'Whitney',
+#             'Caitlyn',
+#             'Caroline',
+#             'Monica',
+#             'Emma',  # 5
+#             'Mary',
+#             'Beth',
+#             'Valerie',
+#             'Amanda',
+#             'Sabrina',  # 10
+#             'Charli',
+#             'London',
+#             'Maddie',
+#             'Katrina',
+#             'Juliana', # 15
+#             'Livvy',
+#             'Kody',
+#             'Sam',
+#             'Maggie',
+#             'Jax',  # 20
+#         ]
+#
+#     def __call__(self, level):
+#         n = self.names[level]
+#         self.used += [n]
+#         if self.used.count(n) > 1:
+#             v = self.used.count(n)
+#             n += '_%i' % v
+#         return n
+#
+# name_generator = NameGenerator()
 
 

@@ -7,12 +7,14 @@ import py_trees
 import math
 import numpy as np
 
+import tools
+
 from actor_tree.base_leaf import BaseLeaf
 from py_trees.common import Status
 
-debug_log = True
-debug_removal = True
-debug_water = True
+debug_log = False
+debug_removal = False
+debug_water = False
 
 def get_tree():
     root = py_trees.composites.Sequence(name='Health', memory=False)
@@ -56,7 +58,7 @@ class AFMCheck(BaseLeaf):
         p_afm = [_ for _ in self.actor.afm if (_.value > 0 and not _.permanent)]
         if len(p_afm):
             if (1 - (self.actor.level / 20)) > self.actor.health / 100:
-                print("AAAAAAAAA")
+                tools.log("AAAAAAAAA")
                 if not self.afm:
                     if self.actor.afm:
                         p_afm = [_ for _ in self.actor.afm if (_.value > 0 and not _.permanent)]

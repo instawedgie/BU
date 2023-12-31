@@ -190,11 +190,11 @@ Variables used to alter behavior for easier debugging. Read the comments.
 
 # user display options
 translate_strings = True  # whether to translate certain strings before displaying to user (ex: Str -> Strength)
-show_actor_names = False  # show actor names to console
+show_actor_names = True  # show actor names to console
 
 # main debug switch (True turns off all debug)
 debug_master_off = True  # turn off all debug behaviors
-debug_print_off = True  # TRY and turn off all debug printing
+debug_print_off = False  # TRY and turn off all debug printing
 
 # misc pest control
 debug_remove_collisions = False  # remove collisions for player movement

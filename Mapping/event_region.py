@@ -68,7 +68,7 @@ class TankEventRegion:
         for t in self.items:  # loop through objects
             if not t.user:  # if an object has no user
                 if debug:
-                    print("%s is now a tank user" % actor.name)
+                    tools.log("%s is now a tank user" % actor.name)
                 actor.waypoint = t.position
                 t.user = actor
                 actor.action_item = t
@@ -76,7 +76,7 @@ class TankEventRegion:
 
         # if not using an object, add to the queue
         if debug:
-            print("%s is now queued for tank" % actor.name)
+            tools.log("%s is now queued for tank" % actor.name)
         self.queue.enqueue(actor)  # enqueue actor (no repeats)
 
     def deregister_actor(self, actor):
@@ -86,7 +86,7 @@ class TankEventRegion:
         :param actor: actor to de-register
         :return: None
         """
-        print("Deregistering actor " + actor.name)
+        if debug: tools.log("Deregistering actor " + actor.name)
         # check if they are a current user
         for t in self.items:
             if t.user == actor:
@@ -138,7 +138,7 @@ class TankEventRegion:
             actor.waypoint = self.queue.location(actor)
             return False
         else:
-            print("Updating unregistered actor")
+            if debug: tools.log("Updating unregistered actor")
             return False
 
 
