@@ -28,7 +28,7 @@ configs.background = pygame.image.load('Storage/NavMesh2.png').convert_alpha()
 pygame.display.set_caption(tools.translator("BU"))
 
 # initialize objects
-num_actors = [0, 3, 5, 7, 9, 10, 15, 20]
+num_actors = [0, 3, 5, 6, 9, 13, 15, 20]
 # num_actors = [1]
 # all_actors = [actors.Actor(level=_) for _ in num_actors]
 all_actors = [Actor(level=_) for _ in num_actors]
