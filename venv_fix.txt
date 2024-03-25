@@ -1,0 +1,98 @@
+---- Venv Fix ----
+Notes: 
+ - This has to be done through CMD instead of Powershell. It is an issue with activating the environment
+ - I added what each step is doing (in case you are interested / want to stay in the loop of what's going on with strange commands)
+ - If you ever see me put $ in front of anything, that is shorthand for saying "type it into the command prompt"
+   - ex: Start the game ( $ python main.py ). This means type 'python main.py' and hit enter 
+ - If you see something like "C:\Users\username\path\to\your\game", you need to replace this with the path to the files on your PC
+ - At the bottom of the page is the "HELP IT DIDN'T WORK" section, where I guessed at potential error messages and how to fix them. 
+   - If you run into an issue, check the number corresponding to your current step
+   - Also, check the 0th step, because I think that can cause some issues as well 
+ - Be sure to note step #9 for running the game in the future 
+
+1) pip -- version 
+ - This ensures that you have pip installed on the computer 
+ - If you get an error, see the #2 of "HELP IT DIDN'T WORK" below 
+
+2) pip install virtualenv
+ - This installs a package that allows us to create 'virtual environments'
+ - Since windows is hard to work with, virtual environments allow us to create a seperate version of python just for this game 
+ - This allows us to install the packages that we need on a completely blank slate 
+
+3) cd C:\User\account_name\path\to\your\game
+ - This moves us to the right location. 
+ - If you are already in the right folder, you can skip this step 
+
+4) dir
+ - This command outputs a list of folders
+   - Ensure that 'requirements.txt' is one of them 
+ - This just ensures that we are in the right location before starting the next steps 
+
+5) virtualenv venv
+ - This creates a virtual environment, giving us a fresh install of python 
+ - The environment needs to be "activated" in order to work 
+
+6) .\venv\Scripts\activate 
+ - This activates the virtual environtment
+ - You should now see (venv) show up beside the path you are at (C:\Users\username\Documents\bla_bla_bla)
+
+7) python -m pip install -r requirements.txt 
+ - This is the command to install all of the python packages I used to create the game
+   - If you're interested in the creation of the game or getting involved, the main package is called 'PyGame'
+   - It's not too complex, and if you learn the basics of python you should be able to hop in and create your own little games 
+
+8) python main.py 
+ - If all of the above steps worked, the game should pop up! 
+
+9) For any time that you want to play the game in the future, you'll have to add one more step compared to the regular format 
+  1) Open the command prompt and do step 3 ($ cd "C:\Users\your_username\path\to\the\game")
+  2) Activate the python environment through step 6 ($ .\venv\Scripts\activate)
+  3) run the game as you normally would ($ python main.py) 
+
+====== HELP IT DIDN'T WORK ====== 
+
+PLEASE TAKE A PICTURE AND SEND IT TO ME 
+Even if it's before you trouble shoot it with the steps below. It will help me make the instructions better. 
+
+If the above steps didn't work, here are a few things to try
+
+0)  Make sure that the game isn't in the OneDrive folder. I've read that OneDrive can mess with programs and code, since it's only made for filesharing. 
+
+1) If you failed on step 1, you don't have pip installed. try the command 'python -m ensurepip --upgrade'
+   - This should allow you to install pip on the computer. Try 'pip --version' again to see if you don't get an error. 
+   - If that doesn't work, I'm not too sure what to do. Please send me the error message. 
+
+2) If this fails, please ensure you are connected to the internet. 
+
+3) If an error is raised here, you most likely didn't enter your path correctly
+   - Ensure that the path is correct 
+   - Ensure that the slashes are facing the right direction 
+   - If there are any spaces in the file path, surround the path in quotation marks ( cd "C:\Users\GeorgeLopez\Games\BU-master" )
+   - Try to right click on the folder in your file explorer and select 'Copy as path' and then use ctrl+v to paste it
+      - type 'cd' and then hit 'ctrl+v' at the same time
+      - It is okay if quotation marks surround the file 
+
+4) If you don't see requirements.txt, you are either 
+   - In the wrong location, please check your filepath from step 3
+   - Don't have the game installed. Find the game in your file explorer and ensure that 'requirements.txt' is in the folder 
+      - The location you are currently in is beside the cursor when you enter a new command 
+
+5) If this step doesn't work, then step 2 did not work for you. Repeat steps 1 and 2, take note of the output, and then try step 5 again. 
+   - Please send me the output from steps 2 and 5. It makes you 10% hotter. 
+
+6) This activates the environment we created from step 5. If you don't see (venv) show up beside the path, then there is an issue 
+   - Ensure there were no typos in step 5
+      - If there was, specifically if you messed up typing 'venv', just use the type instead of 'venv' in future commands 
+   - If you get an error saying that Windows Powershell does not allow you to run scripts, you'll need to continue in CMD instead 
+      - I don't know a simple fix for activating the environment in powershell
+      - To open the Command Line on windows, hit the start (windows) button, type 'CMD', and then hit enter 
+         - Now, restart from step 3 in the new window 
+
+7) Please ensure you're connected to the internet if you get any error messages here
+   - If this step doens't work again, please DM me and I'll take a look at the error messages.
+
+8) This should run the game. If this doesn't work, it could be an error with the Python code. Please send me a DM. 
+   - If you see messages like "Inesa assigned wander' or 'Caroline needs water'  come up, then the game is running, and the window just 	didn't pop up. Look through your open windows, the icon is a little CMD prompt with a python logo the bottom right 
+      - To stop the game in this stage, hit ctrl+x (make sure you click on the Command Prompt window first)
+   - If you don't hear back from me for a couple days, please send me an email at instawedgie@gmail.com
+   - I'm not normally logged into my Instagram account, and only really check it Monthly at best
