@@ -1,6 +1,6 @@
 @echo off 
 
-IF NOT EXIST setup.logs (
+IF NOT EXIST setup.txt (
 	echo --- Initialing environment... 
 	call .\setup.bat 
 ) 
